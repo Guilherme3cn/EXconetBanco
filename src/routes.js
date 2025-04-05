@@ -1,34 +1,22 @@
 import { Router } from "express"; // Importa o Router do Express
-import db from './database.js'; // Importa a conexão com o banco
+import produtos from './prodcontrollers/prodcontroller.js'; // Importa o controlador de produtos
 
 const routes = Router(); // Cria uma instância do Router
 
 
 //rota raiz
-routes.get('/', (req, res) => {
-    res.send('Hello World!');
-    });
+routes.get('/', produtos.raiz); // Define a rota raiz que chama o controlador raiz
 
 //rota para verificar produtos
-routes.get('/produtos', async (req, res) => {
-        try {
-          const produtos = await db('produtos'); // Busca todos os produtos
-          res.send(produtos);
-        } catch (error) {
-          res.status(500).json({ erro: 'Erro ao buscar produtos', detalhe: error });
-        }   }); 
-    
-//rota para adicionar produtos
-routes.post('/produtos', async (req, res) => {
-    const { nome, preco } = req.body; // Desestrutura os dados do corpo da requisição
-  
-    try {
-      await db('produtos').insert({ nome, preco }); // Insere o produto no banco
-      res.status(201).json({ mensagem: 'Produto adicionado com sucesso!' });
-    } catch (error) {
-      res.status(500).json({ erro: 'Erro ao adicionar produto', detalhe: error });
-    }
-  });
+routes.get('/produtos', produtos.listar); // Define a rota para verificar produtos
 
-    
+//rota para adicionar produtos
+routes.post('/produtos', produtos.adicionar); // Define a rota para adicionar produtos
+
+//rota para atualizar produtos
+routes.put('/produtos/:id', produtos.atualizar); // Define a rota para atualizar produtos
+
+//rota para deletar produtos
+routes.delete('/produtos/:id', produtos.deletar); // Define a rota para deletar produtos
+
 export default routes; //exportando as rotas

@@ -16,7 +16,7 @@ app.use(routes)
 
 
 // Inicia o servidor na porta indicada pelo arquivo .env
-    app .listen(port, Host, () => {
-        console.log(`Server is running at http://${Host}:${port}`)
-    }   
-    );
+app.listen(port, Host, () => {
+    console.log(`Server is running at http://${Host}:${port}`)
+}
+);
